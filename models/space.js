@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       space.belongsTo(models.user, { foreignKey: "userId" }); //user-space relationship
+
+      space.hasMany(models.story);
     }
   }
   space.init(
