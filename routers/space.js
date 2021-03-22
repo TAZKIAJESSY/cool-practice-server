@@ -9,7 +9,7 @@ const router = new Router();
 router.patch("/:id", auth, async (req, res, next) => {
   try {
     const space = await Space.findByPk(req.params.id);
-    if (!space.userId === req.user.id) {
+    if (space.userId == req.user.id) {
       return res
         .status(403)
         .send({ message: "You are not authorized to update this space" });
