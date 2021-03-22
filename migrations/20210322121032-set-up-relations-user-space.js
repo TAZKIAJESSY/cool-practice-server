@@ -4,6 +4,8 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.addColumn("spaces", "userId", {
       type: Sequelize.INTEGER,
+      allowNull: false,
+
       references: {
         model: "users",
         key: "id",
