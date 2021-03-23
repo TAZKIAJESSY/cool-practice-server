@@ -5,6 +5,37 @@ const auth = require("../auth/middleware");
 
 const router = new Router();
 
+//Get all spaces
+router.get("/", async (req, res, next) => {
+  try {
+    const getSpaces = await Space.findAll();
+    res.send(getSpaces);
+  } catch (e) {
+    next(e.message);
+  }
+});
+//http GET :4000/spaces
+
+//get a space by id
+router.get("/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const space = await Space.findByPk(id, {
+      include: [Story],
+      order: [[Story, "createdAt", "DESC"]],
+    });
+
+    if (space === null) {
+      return res.status(404).send({ message: "Space not found" });
+    }
+
+    res.status(200).send({ message: "ok", space });
+  } catch (e) {
+    next(e.message);
+  }
+});
+
 //update a space
 router.patch("/:id", auth, async (req, res, next) => {
   try {
